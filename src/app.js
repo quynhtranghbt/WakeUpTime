@@ -27,32 +27,42 @@ app.use(
 app.setHandler({
     LAUNCH() {
         return this.toIntent('WelcomeIntent');
-        // return this.toIntent('RecBedTimeIntent');
     },
     WelcomeIntent() {
-        this.ask('Welcome to Sleep Schedule! Tell me what time you want to wake up');
+        this.$speech.addText('Welcome to Sleep Schedule! Tell me what time you need to wake up')
+        this.$speech.addBreak('300ms')
+        this.$speech.addText('and I’ll recommend you the time you should go to bed')
+        this.$speech.addBreak('500ms')
+        this.$speech.addText('or ask')
+        this.$speech.addBreak('300ms')
+        this.$speech.addText('What time I should wake up?')
+
+        this.ask(this.$speech)
+
+        // this.ask('Welcome to Sleep Schedule! Tell me what time you need to wake up and I’ll recommend you the time you should go to bed or ask “What time I should wake up?”');
 
     },
     RecBedTimeIntent() {
 
         const userWakeUpTime = this.$inputs.userWakeUpTime.key;
 
-        // const wakeUpTime = moment(userWakeUpTime)
-
         const sleepTime = this.calculateSleepTime(userWakeUpTime)
 
-        this.$speech.addText( 'You should go to bed at ' + sleepTime)
+        this.$speech.addText( 'You should go to bed at ')
+        for(let i = 0; i<sleepTime.length; i++){
+            if (i == sleepTime.length-1){
+                this.$speech.addText('or ')
+            }
+            this.$speech.addText(sleepTime[i])  
+            this.$speech.addBreak('700ms')     
+        }
+        // this.$speech.addText(text)
 
         this.tell(this.$speech)
-        // this.$speech.addText('To wake up at ' + userWakeUpTime + ', you need to sleep at' + recommendedBedTime)
+        
     },
     RecWakeUpTimeIntent() {
 
-        // if (this.$inputs.whenToSleep == null){
-        //     userSleepTime = 0
-        // }
-
-        // const userSleepTime = this.$inputs.whenToSleep.key
         const userSleepTime = this.$inputs.duration
 
         console.log(userSleepTime)
@@ -60,22 +70,21 @@ app.setHandler({
 
         const wakeUpTime = this.calculateWakeUpTime(userSleepTime)
 
-        this.$speech.addText('If you go to bed now, you should wake up at ' + wakeUpTime )
+        this.$speech.addText('If you go to bed now, you should wake up at ' )
         
+        for(let i = 0; i<wakeUpTime.length; i++){
+            if (i == wakeUpTime.length-1){
+                this.$speech.addText('or ')
+            }
+            this.$speech.addText(wakeUpTime[i])  
+            
+            this.$speech.addBreak('700ms')
+        }
+
+        // this.$speech.addText(text)
         this.tell(this.$speech)
 
     },
-    // YesIntent() {
-    //     this.ask('Do you need to wake up at a certain time');
-
-    //     this.ask('Hello World! What\'s your name?', 'Please tell me your name.');
-
-        
-    // },
-    // NoIntent() {
-    //     this.ask('Do you need to wake up at a certain time');
-
-    //     this.ask('Hello World! What\'s your name?', 'Please tell me your name.');
 
         
   
@@ -85,27 +94,28 @@ app.setHandler({
 
     calculateSleepTime(inputTime){
         let userWakeUpTime = moment(inputTime)
-        userWakeUpTime.subtract(465, 'minutes')
-        return userWakeUpTime.format('LT')
+        var bedTimesArray = []
+        // recommend 6,then 5 and 4 
+        bedTimesArray.push(userWakeUpTime.subtract(555, 'minutes').format('LT'))
+        bedTimesArray.push(userWakeUpTime.add(90, 'minutes').format('LT'))
+        bedTimesArray.push(userWakeUpTime.add(90, 'minutes').format('LT'))
+        
+        
+
+        return bedTimesArray
     },
 
-    calculateWakeUpTime(inputHowLong){
+    calculateWakeUpTime(){
 
         let currentTime = moment()
-        // console.log(currentTime.format('LT'))
-
-        currentTime =  currentTime.add(465 + inputHowLong, 'minutes')
-        // var wakeUpTimesArray = []
-        // wakeUpTimesArray.push(currentTime.add(285, 'm').format('LT'))
-        
-        // wakeUpTimesArray.push(currentTime.add(90, 'm').format('LT'))
-        
-        // wakeUpTimesArray.push(currentTime.add(90, 'm').format('LT'))
-        
-        // wakeUpTimesArray.push(currentTime.add(90, 'm').format('LT'))
-      
-        
-        return currentTime.format('LT')
+       
+        var wakeUpTimesArray = []
+        // recommend 6, then 5 and 4
+        wakeUpTimesArray.push(currentTime.add(555, 'm').format('LT'))
+        wakeUpTimesArray.push(currentTime.subtract(90, 'm').format('LT'))
+        wakeUpTimesArray.push(currentTime.subtract(90, 'm').format('LT'))
+              
+        return wakeUpTimesArray
       }
 });
 
