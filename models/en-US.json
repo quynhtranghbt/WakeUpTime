@@ -1,0 +1,93 @@
+{
+	"invocation": "my test app",
+	"intents": [{
+		"name": "WakeUpTime",
+		"phrases": [
+			"What time I should wake up?",
+			"What time to wake up?",
+			"I want to know what time to wake up",
+			"Help me find the time to wake up"
+		]
+	},
+	
+	{"name": "StopIntent",
+		"phrases":["stop", "stop the app"]
+
+	},
+	{"name": "YesIntent",
+		"phrases":["yes", "yeah", "okay"]
+
+	},
+	{"name": "NoIntent",
+		"phrases":["no", "nah"]
+
+	},
+	
+		{
+			"name": "HelloWorldIntent",
+			"phrases": [
+				"hello",
+				"say hello",
+				"say hello world"
+			]
+		},
+		{
+			"name": "MyNameIsIntent",
+			"phrases": [
+				"{name}",
+				"my name is {name}",
+				"i am {name}",
+				"you can call me {name}"
+			],
+			"inputs": [
+				{
+					"name": "name",
+					"type": {
+						"alexa": "AMAZON.US_FIRST_NAME",
+						"dialogflow": "@sys.given-name"
+					}
+				}
+			]
+		}
+	],
+	"alexa": {
+		"interactionModel": {
+			"languageModel": {
+				"intents": [
+					{
+						"name": "AMAZON.CancelIntent",
+						"samples": []
+					},
+					{
+						"name": "AMAZON.HelpIntent",
+						"samples": []
+					},
+					{
+						"name": "AMAZON.StopIntent",
+						"samples": []
+					}
+				]
+			}
+		}
+	},
+	"dialogflow": {
+		"intents": [
+			{
+				"name": "Default Fallback Intent",
+				"auto": true,
+				"webhookUsed": true,
+				"fallbackIntent": true
+			},
+			{
+				"name": "Default Welcome Intent",
+				"auto": true,
+				"webhookUsed": true,
+				"events": [
+					{
+						"name": "WELCOME"
+					}
+				]
+			}
+		]
+	}
+}
