@@ -91,7 +91,7 @@ app.setHandler({
         }
         this.$speech.addBreak('300ms').addText(['Good night!', 'Have a good night!', 'Sweet dreams!', "Good night! Don't let the bed bugs bite."])
 
-        this.ask(this.$speech)
+        this.tell(this.$speech)
 
     },
     RecWakeUpTimeIntent() {
@@ -121,7 +121,7 @@ app.setHandler({
             this.$speech.addBreak('500ms')
         }
         this.$speech.addBreak('300ms').addText(['Good night!', 'Have a good night!', 'Sweet dreams!', "Good night! Don't let the bed bugs bite."])
-        this.ask(this.$speech)
+        this.tell(this.$speech)
 
     },
 
@@ -134,7 +134,7 @@ app.setHandler({
         this.$speech.addText([', or tell me if you want to sleep now.', ', or say "I want to sleep now."', ', or ask: "What time I should wake up?"'])
         this.$speech.addBreak('400ms')
         this.$speech.addText('To close the app, say "stop".')
-        this.ask(this.$speech);
+        this.tell(this.$speech);
     },
 
 
