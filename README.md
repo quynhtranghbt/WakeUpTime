@@ -18,10 +18,10 @@ Install Jovo
 npm install -g jovo-cli
 ```
 
-Navigate to Sharkweek folder
+Navigate to WakeUpTime folder
 
 ```
-cd sharkweek
+cd WakeUpTime
 ```
 
 Start server
